@@ -34,7 +34,7 @@ CREATE TABLE EMP_SKILL(
     EmpNo VARCHAR2(10) CONSTRAINT FK_EMP_SKILL_EmpNo REFERENCES EMPLOYEE(EmpNo),
     SkillLevel NUMBER NOT NULL,
     RegDate DATE NOT NULL,
-    -- Đã bỏ cột Ddescription ngay từ đầu cho đỡ phải Alter
+    Ddescription VARCHAR2(100) Not null,
     PRIMARY KEY (SkillNo, EmpNo),
     CONSTRAINT CK_EMP_SKILL_SkillLv CHECK(SkillLevel BETWEEN 1 AND 3)
 );
@@ -65,10 +65,15 @@ BEGIN
         END IF;
     END IF;
 END;
-/ 
+/
 -- (Dấu / ở trên bắt buộc phải có để chạy trigger)
 
+
+-- Xóa cột Ddescription khỏi bảng EMP_SKILL
+alter table EMP_SKILL
+DROP COLUMN Ddescription
 -- === PHẦN 3: INSERT DỮ LIỆU ===
+
 
 -- 1. Insert DEPARTMENT trước (Để lấy ID 1,2,3,4,5)
 INSERT INTO DEPARTMENT (DeptName, Note) VALUES ('HR', 'Human Resources');
