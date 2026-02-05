@@ -18,7 +18,6 @@ CREATE TABLE EMPLOYEE (
     Llevel number(3) not null,     
     Sstatus number(3) default 0 not null,    -- Đã gộp default vào đây luôn
     Note varchar2(100),
-    Email VARCHAR2(50) DEFAULT ' ' NOT NULL, -- Đã thêm cột Email vào lúc tạo luôn
     constraint CK_EMPLOYEE_Llevel check (Llevel between 1 and 7),
     constraint CK_EMPLOYEE_Sstatus check (Sstatus between 0 and 2)
 );
@@ -39,7 +38,9 @@ CREATE TABLE EMP_SKILL(
     PRIMARY KEY (SkillNo, EmpNo),
     CONSTRAINT CK_EMP_SKILL_SkillLv CHECK(SkillLevel BETWEEN 1 AND 3)
 );
-
+-- Thêm cột Email vào bảng EMPLOYEE
+ALTER TABLE EMPLOYEE
+ADD Email VARCHAR2(50) DEFAULT ' ' NOT NULL;
 -- === PHẦN 2: TẠO KHÓA NGOẠI VÀ TRIGGER ===
 
 -- Thêm khóa ngoại cho Employee trỏ về Department
