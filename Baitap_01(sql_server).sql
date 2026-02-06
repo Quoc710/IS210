@@ -58,3 +58,4 @@ add default 0 for MgrNo
 
 alter table EMPLOYEE 
 add default 0 for Sstatus
+
