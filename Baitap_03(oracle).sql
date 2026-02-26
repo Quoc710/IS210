@@ -84,7 +84,7 @@ BEGIN
     INTO v_name, v_email, v_deptName
     FROM Employee e
     JOIN Department d ON e.DeptID = d.DeptID
-    WHERE e.EmpNo = p_EmpNo AND e.Status = 'Out'; -- Giả sử cột Status đánh dấu nghỉ việc
+    WHERE e.EmpNo = p_EmpNo AND e.Status = 'Out';
 
     DBMS_OUTPUT.PUT_LINE('Tên: ' || v_name || ' | Email: ' || v_email || ' | Phòng: ' || v_deptName);
 EXCEPTION
@@ -99,7 +99,7 @@ RETURN NUMBER AS
 BEGIN
     SELECT Salary INTO v_salary
     FROM Employee
-    WHERE EmpNo = p_EmpNo AND Status = 'Working'; -- Chỉ lấy người đang làm việc
+    WHERE EmpNo = p_EmpNo AND Status = 'Working'; 
     
     RETURN v_salary;
 EXCEPTION
@@ -127,27 +127,27 @@ END;
     v_years NUMBER;
 BEGIN
     FOR r IN cur_emp LOOP
-        v_current_salary := Emp_Tracking(r.EmpNo); -- Sử dụng lại function câu d
+        v_current_salary := Emp_Tracking(r.EmpNo);
         v_years := MONTHS_BETWEEN(SYSDATE, r.StartDate) / 12;
 
-        IF v_current_salary > 0 THEN -- Nếu nhân viên còn đang làm việc
-            -- Điều kiện 1: Level 2, làm ít nhất 2 năm, nhiều kỹ năng
+        IF v_current_salary > 0 THEN 
+           
             IF r.skill_count > 1 AND r.Level_Emp = 2 AND v_years >= 2 THEN
                 UPDATE Employee SET Salary = Salary + 300000 WHERE EmpNo = r.EmpNo;
             
-            -- Điều kiện 2: Level 3, làm ít nhất 3 năm, nhiều kỹ năng
+            
             ELSIF r.skill_count > 1 AND r.Level_Emp = 3 AND v_years >= 3 THEN
                 UPDATE Employee SET Salary = Salary + 500000 WHERE EmpNo = r.EmpNo;
             END IF;
         END IF;
     END LOOP;
 
-    COMMIT; -- Lưu tất cả nếu thành công
+    COMMIT; 
     DBMS_OUTPUT.PUT_LINE('Cập nhật lương hoàn tất!');
 
 EXCEPTION
     WHEN OTHERS THEN
-        ROLLBACK; -- Hoàn tác nếu có bất kỳ lỗi nào
+        ROLLBACK; 
         DBMS_OUTPUT.PUT_LINE('Cập nhật thất bại, hệ thống đã Rollback. Lỗi: ' || SQLERRM);
 END;
 /
